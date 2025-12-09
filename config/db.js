@@ -1,18 +1,17 @@
+// server/config/db.js
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      // options optional with new mongoose, can be empty
+    });
+
     console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error("MongoDB connection error:", error.message);
-    process.exit(1);
+  } catch (err) {
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1); // app ko stop kar dega if DB na mile
   }
 };
 
 module.exports = connectDB;
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
-
